@@ -1,0 +1,757 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Idiom Explorer · English Writing Lab</title>
+<style>
+:root {
+  --ink:#263348;
+  --muted:#68768a;
+  --bg:#f7f8f6;
+  --line:#e2e8e5;
+  --teal:#167d77;
+  --teal-pale:#e8f4f1;
+  --coral:#d46e55;
+  --violet:#7865a9;
+  --white:#fff;
+}
+
+* {box-sizing:border-box}
+
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Arial,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  line-height:1.55;
+}
+
+button,textarea {font:inherit}
+button {cursor:pointer}
+
+.shell {
+  max-width:1160px;
+  margin:auto;
+  padding:30px 28px 64px;
+}
+
+.mast {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--line);
+  padding-bottom:18px;
+  gap:12px;
+}
+
+.logo {
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.14em;
+  color:var(--teal);
+}
+
+.course {
+  font-size:12px;
+  color:var(--muted);
+}
+
+.intro {
+  padding:36px 0 30px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:24px;
+  align-items:end;
+}
+
+.kicker {
+  font-size:12px;
+  letter-spacing:.12em;
+  font-weight:800;
+  color:var(--teal);
+  text-transform:uppercase;
+}
+
+.intro h1 {
+  font-size:clamp(36px,5vw,56px);
+  line-height:1.12;
+  letter-spacing:-.045em;
+  margin:8px 0 14px;
+}
+
+.intro p {
+  max-width:790px;
+  font-size:15px;
+  line-height:1.85;
+  color:#526074;
+  margin:0;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+
+.intro-side {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  align-items:flex-end;
+}
+
+.mini {
+  border-radius:99px;
+  padding:7px 12px;
+  background:#e7eee9;
+  color:#4b655e;
+  font-size:11px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.card {
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:26px;
+  box-shadow:0 4px 18px rgba(30,55,50,.025);
+}
+
+.section-head {
+  display:flex;
+  gap:12px;
+  align-items:start;
+  margin-bottom:20px;
+}
+
+.num {
+  display:grid;
+  place-items:center;
+  flex:0 0 34px;
+  height:34px;
+  background:var(--teal-pale);
+  color:var(--teal);
+  font-weight:800;
+  font-size:12px;
+  border-radius:10px;
+}
+
+.section-head h2 {
+  font-size:20px;
+  letter-spacing:-.025em;
+  margin:0 0 3px;
+}
+
+.section-head p {
+  font-size:13px;
+  color:var(--muted);
+  margin:0;
+  word-break:keep-all;
+}
+
+.choices {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.choice {
+  border:1px solid var(--line);
+  background:#fff;
+  text-align:left;
+  border-radius:10px;
+  min-height:60px;
+  padding:12px 14px;
+  color:var(--ink);
+  font-weight:700;
+  font-size:13px;
+  transition:.15s;
+}
+
+.choice:hover {
+  border-color:#9dc7bf;
+  background:#f8fcfa;
+}
+
+.choice.active {
+  border:1.5px solid var(--teal);
+  background:var(--teal-pale);
+  color:#0e615b;
+}
+
+.choice .idx {
+  font-size:10px;
+  letter-spacing:.08em;
+  color:#9ba8a4;
+  display:block;
+  margin-bottom:3px;
+}
+
+.choice.active .idx {
+  color:#4d8d85;
+}
+
+.selected {
+  background:#f0f6f4;
+  border-radius:12px;
+  padding:21px 22px;
+  margin-bottom:20px;
+  border-left:4px solid var(--teal);
+}
+
+.selected small {
+  display:block;
+  text-transform:uppercase;
+  font-size:10px;
+  letter-spacing:.13em;
+  color:var(--teal);
+  font-weight:800;
+  margin-bottom:4px;
+}
+
+.selected strong {
+  font-size:25px;
+  letter-spacing:-.03em;
+  overflow-wrap:anywhere;
+}
+
+.search-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:15px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.search-row:last-of-type {
+  border-bottom:0;
+}
+
+.search-title {
+  font-weight:800;
+  font-size:15px;
+}
+
+.search-desc {
+  font-size:12px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.search-btn {
+  background:var(--teal);
+  color:white;
+  border:0;
+  border-radius:9px;
+  padding:10px 16px;
+  font-weight:800;
+  font-size:12px;
+  white-space:nowrap;
+}
+
+.search-btn:hover {
+  background:#106761;
+}
+
+.origin .search-title {
+  color:var(--violet);
+}
+
+.usage .search-title {
+  color:var(--coral);
+}
+
+.tip {
+  background:#faf7f1;
+  border-radius:10px;
+  padding:13px 15px;
+  font-size:12px;
+  color:#79694f;
+  margin-top:19px;
+  word-break:keep-all;
+}
+
+.notes {
+  margin-top:20px;
+}
+
+.note-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.note-box label {
+  display:block;
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.note-box label::before {
+  content:"";
+  display:inline-block;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--teal);
+  margin-right:8px;
+}
+
+.note-box:nth-child(2) label::before {
+  background:var(--violet);
+}
+
+.note-box:nth-child(3) label::before {
+  background:var(--coral);
+}
+
+textarea {
+  width:100%;
+  min-height:148px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:13px;
+  background:#fcfdfc;
+  resize:vertical;
+  font-size:13px;
+  color:var(--ink);
+  outline:none;
+}
+
+textarea:focus {
+  border-color:var(--teal);
+  box-shadow:0 0 0 3px #dff1ec;
+}
+
+textarea::placeholder {
+  color:#9aa6a3;
+}
+
+.note-footer {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+
+.status {
+  font-size:12px;
+  color:var(--muted);
+}
+
+.actions {
+  display:flex;
+  gap:8px;
+}
+
+.action {
+  border:1px solid var(--line);
+  background:white;
+  color:var(--ink);
+  border-radius:9px;
+  padding:10px 15px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.action.primary {
+  background:var(--ink);
+  border-color:var(--ink);
+  color:white;
+}
+
+.foot {
+  text-align:center;
+  margin-top:32px;
+  color:#96a09d;
+  font-size:11px;
+}
+
+@media(max-width:780px) {
+  .grid {grid-template-columns:1fr}
+  .note-grid {grid-template-columns:1fr}
+  .intro {grid-template-columns:1fr}
+  .intro-side {
+    align-items:flex-start;
+    flex-direction:row;
+  }
+  .note-box textarea {min-height:110px}
+}
+
+@media(max-width:470px) {
+  .shell {padding:18px 14px 42px}
+  .card {padding:18px}
+  .choices {grid-template-columns:1fr 1fr}
+  .choice {font-size:12px;padding:11px 9px}
+  .intro {padding:29px 0 24px}
+  .intro h1 {font-size:37px}
+  .intro p {font-size:14px}
+  .course {font-size:10px}
+  .selected strong {font-size:22px}
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+
+  <header class="mast">
+    <div class="logo">
+      ENGLISH WRITING LAB <span aria-hidden="true">↗</span>
+    </div>
+    <div class="course">
+      Common English I · Lesson 3
+    </div>
+  </header>
+
+  <section class="intro">
+    <div>
+      <div class="kicker">
+        Research & Writing · Activity 02
+      </div>
+
+      <h1>
+        Idiom Explorer<span style="color:var(--teal)">.</span>
+      </h1>
+
+      <p>
+        영어 관용표현을 하나 선택하고 의미, 유래, 실제 사용법을
+        직접 조사해 보세요. 조사한 내용을 바탕으로 다음 활동에서
+        설명문을 작성합니다.
+      </p>
+    </div>
+
+    <div class="intro-side">
+      <span class="mini">CHOOSE → SEARCH → ORGANIZE</span>
+      <span class="mini">10 IDIOMS</span>
+    </div>
+  </section>
+
+  <main>
+    <div class="grid">
+
+      <!-- STEP 01 -->
+      <section class="card">
+        <div class="section-head">
+          <span class="num">01</span>
+          <div>
+            <h2>Choose an Idiom</h2>
+            <p>관심 있는 영어 관용표현 하나를 선택하세요.</p>
+          </div>
+        </div>
+
+        <div class="choices" id="choices"></div>
+      </section>
+
+      <!-- STEP 02 -->
+      <section class="card">
+        <div class="section-head">
+          <span class="num">02</span>
+          <div>
+            <h2>Explore on Google</h2>
+            <p>각 항목을 클릭해 실제 검색 결과를 확인하세요.</p>
+          </div>
+        </div>
+
+        <div class="selected">
+          <small>Selected idiom</small>
+          <strong id="selected">break the ice</strong>
+        </div>
+
+        <div class="search-row">
+          <div>
+            <div class="search-title">Meaning</div>
+            <div class="search-desc">무슨 뜻일까?</div>
+          </div>
+          <button class="search-btn" data-kind="meaning">
+            Google 검색 ↗
+          </button>
+        </div>
+
+        <div class="search-row origin">
+          <div>
+            <div class="search-title">Origin</div>
+            <div class="search-desc">어디에서 유래했을까?</div>
+          </div>
+          <button class="search-btn" data-kind="origin">
+            Google 검색 ↗
+          </button>
+        </div>
+
+        <div class="search-row usage">
+          <div>
+            <div class="search-title">Usage</div>
+            <div class="search-desc">실제로 어떻게 사용할까?</div>
+          </div>
+          <button class="search-btn" data-kind="usage">
+            Google 검색 ↗
+          </button>
+        </div>
+
+        <div class="tip">
+          <strong>Research tip.</strong>
+          검색 결과를 비교해 보고, 특히 유래에 관한 정보는
+          출처를 확인하세요.
+        </div>
+      </section>
+    </div>
+
+    <!-- STEP 03 -->
+    <section class="card notes">
+      <div class="section-head">
+        <span class="num">03</span>
+        <div>
+          <h2>Research Notes</h2>
+          <p>
+            검색한 정보를 자신의 말로 정리하세요.
+            다음 설명문 작성 활동에서 활용합니다.
+          </p>
+        </div>
+      </div>
+
+      <div class="note-grid">
+        <div class="note-box">
+          <label for="meaning">Meaning</label>
+          <textarea id="meaning"
+            placeholder="What does the idiom mean?&#10;의미를 정리해 보세요."></textarea>
+        </div>
+
+        <div class="note-box">
+          <label for="origin">Origin</label>
+          <textarea id="origin"
+            placeholder="Where does it come from?&#10;유래를 정리해 보세요."></textarea>
+        </div>
+
+        <div class="note-box">
+          <label for="usage">Usage</label>
+          <textarea id="usage"
+            placeholder="How is it used?&#10;예문이나 사용 상황을 정리해 보세요."></textarea>
+        </div>
+      </div>
+
+      <div class="note-footer">
+        <span class="status" id="status">
+          메모는 이 브라우저에 자동 저장됩니다.
+        </span>
+
+        <div class="actions">
+          <button class="action" id="clear">
+            Clear Notes
+          </button>
+          <button class="action primary" id="download">
+            Download Notes ↓
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    ENGLISH WRITING LAB · EMBRACE DIVERSITY, BROADEN YOUR HORIZONS
+  </footer>
+</div>
+
+<script>
+  // 10 English idioms
+  const idioms = [
+    "break the ice",
+    "a piece of cake",
+    "under the weather",
+    "spill the beans",
+    "hit the books",
+    "once in a blue moon",
+    "cost an arm and a leg",
+    "the ball is in your court",
+    "bite the bullet",
+    "burn the midnight oil"
+  ];
+
+  let current = idioms[0];
+
+  const choices = document.getElementById("choices");
+  const selected = document.getElementById("selected");
+  const status = document.getElementById("status");
+
+  const fields = {
+    meaning: document.getElementById("meaning"),
+    origin: document.getElementById("origin"),
+    usage: document.getElementById("usage")
+  };
+
+  function storageRead(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  }
+
+  function storageWrite(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      status.textContent =
+        "자동 저장이 제한됩니다. 메모를 다운로드해 보관하세요.";
+    }
+  }
+
+  function key() {
+    return "idiom-explorer-v2:" + current;
+  }
+
+  function save() {
+    storageWrite(
+      key(),
+      JSON.stringify({
+        meaning: fields.meaning.value,
+        origin: fields.origin.value,
+        usage: fields.usage.value
+      })
+    );
+  }
+
+  function load() {
+    let data = {};
+
+    try {
+      data = JSON.parse(storageRead(key()) || "{}") || {};
+    } catch {
+      data = {};
+    }
+
+    for (const kind of Object.keys(fields)) {
+      fields[kind].value = data[kind] || "";
+    }
+  }
+
+  function render() {
+    choices.replaceChildren();
+
+    idioms.forEach((idiom, i) => {
+      const button = document.createElement("button");
+
+      button.className =
+        "choice" + (idiom === current ? " active" : "");
+
+      button.type = "button";
+
+      button.setAttribute(
+        "aria-pressed",
+        String(idiom === current)
+      );
+
+      const number = document.createElement("span");
+      number.className = "idx";
+      number.textContent = String(i + 1).padStart(2, "0");
+
+      button.append(
+        number,
+        document.createTextNode(idiom)
+      );
+
+      button.onclick = () => {
+        save();
+        current = idiom;
+        selected.textContent = idiom;
+        render();
+        load();
+      };
+
+      choices.appendChild(button);
+    });
+  }
+
+  // Open actual Google search results
+  const suffix = {
+    meaning: "idiom meaning",
+    origin: "idiom origin history",
+    usage: "idiom example sentences usage"
+  };
+
+  document.querySelectorAll("[data-kind]").forEach(button => {
+    button.onclick = () => {
+      const query =
+        current + " " + suffix[button.dataset.kind];
+
+      const url =
+        "https://www.google.com/search?q=" +
+        encodeURIComponent(query);
+
+      window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    };
+  });
+
+  // Save notes automatically
+  Object.values(fields).forEach(element => {
+    element.addEventListener("input", save);
+  });
+
+  // Clear notes for selected idiom
+  document.getElementById("clear").onclick = () => {
+    if (!confirm("선택한 관용표현의 메모를 지울까요?")) {
+      return;
+    }
+
+    Object.values(fields).forEach(element => {
+      element.value = "";
+    });
+
+    save();
+  };
+
+  // Download notes
+  document.getElementById("download").onclick = () => {
+    const text = [
+      "IDIOM EXPLORER",
+      "Selected idiom: " + current,
+      "",
+      "MEANING",
+      fields.meaning.value,
+      "",
+      "ORIGIN",
+      fields.origin.value,
+      "",
+      "USAGE",
+      fields.usage.value
+    ].join("\n");
+
+    const blob = new Blob(
+      ["\ufeff" + text],
+      { type: "text/plain;charset=utf-8" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download =
+      "Idiom_Notes_" +
+      current.replace(/\s+/g, "_") +
+      ".txt";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
+  // Initialize
+  render();
+  load();
+</script>
+</body>
+</html>
